@@ -15,11 +15,9 @@ contract JustAnotherNFT is ERC721, Pausable, Ownable, ERC721Burnable {
     IERC20 private _token;
     uint256 NFTcost = 1000 * 10**18; 
 
-    constructor() ERC721("JustAnotherNFT", "JANFT") {}
-
-    // constructor(IERC20 token) ERC721("JustAnotherNFT", "JANFT") {
-    //     _token = token;
-    // }
+    constructor(IERC20 token) ERC721("JustAnotherNFT", "JANFT") {
+        _token = token;
+    }
 
     function pause() public onlyOwner {
         _pause();
@@ -36,7 +34,7 @@ contract JustAnotherNFT is ERC721, Pausable, Ownable, ERC721Burnable {
     function safeMint(address to) public onlyOwner {
         address sender = _msgSender();
 
-        require(NFTcost >= _token.balanceOf(sender));
+        require(NFTcost <= _token.balanceOf(sender));
         _token.transferFrom(sender, address(this), NFTcost);
 
         uint256 tokenId = _tokenIdCounter.current();
