@@ -5,10 +5,10 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract JustAnotherNFT is ERC721, Pausable, Ownable, ERC721Burnable {
+contract JustAnotherNFT is ERC721, Pausable, Ownable, ERC721URIStorage{
     using Counters for Counters.Counter;
     
     Counters.Counter private _tokenIdCounter;
@@ -27,11 +27,8 @@ contract JustAnotherNFT is ERC721, Pausable, Ownable, ERC721Burnable {
         _unpause();
     }
 
-    function _baseURI() internal pure override returns (string memory) {
-        return "ipfs://justanother/";
-    }
 
-    function safeMint(address to) public onlyOwner {
+    function safeMint(address to, string memory uri) public onlyOwner {
         address sender = _msgSender();
 
         require(NFTcost <= _token.balanceOf(sender));
@@ -40,5 +37,14 @@ contract JustAnotherNFT is ERC721, Pausable, Ownable, ERC721Burnable {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
+        _setTokenURI(tokenId, uri);
+    }
+
+    function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
+        return super.tokenURI(tokenId);
+    }
+
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
     }
 }
