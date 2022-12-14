@@ -1,0 +1,16 @@
+{
+  "description": "This is Just Another Logo NFT",
+  "external_url": "https://justanotherdomain.dev/",
+  "image": "https://justanother.infura-ipfs.io/ipfs/QmPUeXkUboSBC5bQep1ykXStbFrXS3qDgRc5GLLGyZyDdf",
+  "name": "Just Another Pixeled Logo",
+  "attributes": [
+    {
+      "trait_type": "Colour",
+      "value": "Turquoise"
+    },
+    {
+      "trait_type": "Token Standard",
+      "value": "ERC721"
+    }
+  ]
+}
